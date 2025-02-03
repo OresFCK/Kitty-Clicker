@@ -2,9 +2,6 @@ extends Node
 
 @onready var label = get_node("../Label")
 
-func _ready():
-	pass
-
 func _on_pressed() -> void:
 	Main.points += Main.click_strength
 	update_ui()
