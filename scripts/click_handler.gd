@@ -1,11 +1,21 @@
 extends Node
 
+signal cat_clicked  
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+@onready var label = get_node("../Label")
 
+var points = 0
+var click_strength = 1
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func _ready():
+	connect("cat_clicked", Callable(self, "_on_cat_clicked")) 
+
+func emit_click():
+	emit_signal("cat_clicked")  
+
+func _on_pressed() -> void:
+	points += click_strength
+	update_ui()
+	
+func update_ui():
+	label.update_score(points)

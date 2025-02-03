@@ -1,3 +1,22 @@
-[gd_scene format=3 uid="uid://q7v30pkhrgji"]
+[gd_scene load_steps=3 format=3 uid="uid://q7v30pkhrgji"]
+
+[ext_resource type="Script" path="res://scripts/click_handler.gd" id="1_dbanm"]
+[ext_resource type="Script" path="res://UI/main_ui.gd" id="2_l2nie"]
 
 [node name="Node2D" type="Node2D"]
+
+[node name="Button" type="Button" parent="."]
+offset_left = 247.0
+offset_top = 38.0
+offset_right = 362.0
+offset_bottom = 100.0
+text = "Click"
+script = ExtResource("1_dbanm")
+
+[node name="Label" type="Label" parent="."]
+offset_right = 94.0
+offset_bottom = 58.0
+text = "Score: 0"
+script = ExtResource("2_l2nie")
+
+[connection signal="pressed" from="Button" to="Button" method="_on_pressed"]
