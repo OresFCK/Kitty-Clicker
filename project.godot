@@ -17,6 +17,7 @@ config/features=PackedStringArray("4.3", "GL Compatibility")
 [autoload]
 
 Main="*res://scripts/main.gd"
+Upgrades="*res://data/upgrades.gd"
 
 [rendering]
 
