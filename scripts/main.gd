@@ -4,16 +4,18 @@ var points = 0
 var click_strength = 1
 var clicks_per_second = 0
 var save_path = "user://savegame.save"
+var timer : Timer
 
 @onready var label = get_node("/root/Node2D/ScoreLabel")
 @onready var sps_label = get_node('/root/Node2D/ScorePerSecondLabel')
 
 func _ready():
 	load_game()
-	start_autosave()
+	if not timer:
+		start_autosave()
 
 func start_autosave():
-	var timer = Timer.new()
+	timer = Timer.new()
 	timer.wait_time = 1.0
 	timer.autostart = true
 	timer.connect("timeout", Callable(self, "save_game"))
@@ -24,7 +26,7 @@ func save_game():
 		"points": points,
 		"click_strength": click_strength,
 		"clicks_per_second": clicks_per_second,
-		"upgrades": Upgrades.save_upgrades() 
+		"upgrades": Upgrades.save_upgrades()
 	}
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if file:
@@ -37,11 +39,11 @@ func load_game():
 		if file:
 			var content = file.get_as_text()
 			var data = JSON.parse_string(content)
-
 			if typeof(data) == TYPE_DICTIONARY:
+				# Load values from saved data
 				points = data.get("points", 0)
 				click_strength = data.get("click_strength", 1)
-				clicks_per_second = data.get('clicks_per_second', 0)
+				clicks_per_second = data.get("clicks_per_second", 0)
 				Upgrades.upgrades = data.get('upgrades') 
 				label.update_score(points)
 
