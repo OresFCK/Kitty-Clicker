@@ -3,7 +3,7 @@ extends Node
 var points = 0
 var click_strength = 1
 var save_path = "user://savegame.save"  
-@onready var label = get_node("/root/Node2D/Label")  
+@onready var label = get_node("/root/Node2D/ScoreLabel")  
 
 func _ready():
 	load_game() 

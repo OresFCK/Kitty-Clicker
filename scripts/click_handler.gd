@@ -1,6 +1,6 @@
 extends Node
 
-@onready var label = get_node("../Label")
+@onready var label = get_node("../ScoreLabel")
 
 func _on_pressed() -> void:
 	Main.points += Main.click_strength
