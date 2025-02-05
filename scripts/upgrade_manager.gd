@@ -21,7 +21,7 @@ func _ready():
 		update_timer()
 
 func load_upgrades():
-	upgrades = Upgrades.get_upgrades() 
+	upgrades = Upgrades.get_upgrades()
 
 func generate_upgrade_buttons():
 	for upgrade in upgrades:
@@ -31,7 +31,7 @@ func generate_upgrade_buttons():
 		button.connect("pressed", Callable(self, "_on_upgrade_button_pressed").bind(upgrade))
 
 		button_container.add_child(button)
-		buttons[upgrade] = button
+		buttons[upgrade["name"]] = button  # Use upgrade["name"] as the unique key
 
 func _on_upgrade_button_pressed(upgrade):
 	if Main.points >= upgrade["price"]:
@@ -51,9 +51,10 @@ func _on_upgrade_button_pressed(upgrade):
 		print("Not enough coins to purchase " + upgrade["name"] + "!")
 
 func update_button_text(upgrade):
-	var button = buttons.get(upgrade)
+	var button = buttons.get(upgrade["name"])  # Retrieve the button using the upgrade["name"]
 	if button:
 		button.text = upgrade["name"] + " - " + str(upgrade["price"]) + " Coins (Level " + str(upgrade["level"]) + ")"
+		button.queue_redraw()  # Ensure the button is redrawn after updating the text
 
 func update_timer():
 	if Main.clicks_per_second > 0:
