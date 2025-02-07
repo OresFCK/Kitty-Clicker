@@ -3,6 +3,8 @@ extends Node
 var points = 0
 var click_strength = 1
 var clicks_per_second = 0
+var prestige_points = 0  
+var prestige_multiplier = 1.0 
 var save_path = "user://savegame.save"
 var timer : Timer
 
@@ -48,6 +50,34 @@ func load_game():
 				if saved_upgrades.size() > 0:
 					Upgrades.upgrades = saved_upgrades
 
-				label.update_score(points)
-
+				label.update_score(round(points))
+				sps_label.update_score_per_second(clicks_per_second)
+				
 			file.close()
+
+func calculate_prestige_points():
+	return int(floor(sqrt(points / 1000000)))  
+
+func prestige():
+	var gained_prestige = calculate_prestige_points()
+	if gained_prestige > 0:
+		prestige_points += gained_prestige
+		prestige_multiplier = 1.0 + (prestige_points * 0.01)  # 1% bonus per prestige point
+
+		points = 0
+		click_strength = 1
+		clicks_per_second = 0
+		Upgrades.reset_upgrades()
+
+		save_game()
+		label.update_score(points)
+		sps_label.update_score_per_second(clicks_per_second)
+		print("Prestiged! You now have " + str(prestige_points) + " prestige points.")
+	else:
+		print("Not enough points to prestige!")
+
+func get_effective_click_strength():
+	return float(click_strength) * float(prestige_multiplier)
+
+func get_effective_cps():
+	return float(clicks_per_second) * float(prestige_multiplier)

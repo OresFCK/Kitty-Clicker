@@ -33,3 +33,7 @@ func load_upgrades():
 			if typeof(data) == TYPE_DICTIONARY:
 				upgrades = data.get("upgrades", upgrades)  
 			file.close()
+
+func reset_upgrades():
+	for upgrade in upgrades:
+		upgrade["level"] = 0

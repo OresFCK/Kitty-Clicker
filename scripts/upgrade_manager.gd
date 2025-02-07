@@ -9,16 +9,18 @@ var timer: Timer
 var buttons = {}
 
 func _ready():
-	Upgrades.load_upgrades()  
+	Upgrades.load_upgrades()
 	generate_upgrade_buttons()
-
-	if not timer:
-		timer = Timer.new()
-		timer.wait_time = 1.0
-		timer.one_shot = false
-		timer.connect("timeout", Callable(self, "_on_timer_timeout"))
-		add_child(timer)
-		update_timer()
+	
+	
+	timer = Timer.new()
+	timer.wait_time = 1.0
+	timer.one_shot = false
+	timer.connect("timeout", Callable(self, "_on_timer_timeout"))
+	add_child(timer)
+	
+	await get_tree().process_frame
+	update_timer()
 
 func generate_upgrade_buttons():
 	for upgrade in Upgrades.upgrades:  
@@ -58,15 +60,17 @@ func update_timer():
 		var new_wait_time = 1.0 / Main.clicks_per_second
 		if timer.wait_time != new_wait_time:
 			timer.wait_time = new_wait_time
+
 		sps_label.update_score_per_second(Main.clicks_per_second)
 
-		if not timer.is_stopped():
+		if timer.is_stopped():
 			timer.start()
 	else:
 		if not timer.is_stopped():
 			timer.stop()
 
 func _on_timer_timeout():
-	Main.points += Main.click_strength
-	ui_label.update_score(Main.points)  
+	var added_points = Main.get_effective_cps()
+	Main.points += added_points
+	ui_label.update_score(round(Main.points)) 
 	update_timer()
