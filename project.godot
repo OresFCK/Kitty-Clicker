@@ -11,12 +11,11 @@ config_version=5
 [application]
 
 config/name="Kitty Clicker - alpha"
-run/main_scene="res://scenes/Main.tscn"
+run/main_scene="res://scenes/GameStart.tscn"
 config/features=PackedStringArray("4.3", "GL Compatibility")
 
 [autoload]
 
-Main="*res://scripts/main.gd"
 Upgrades="*res://data/upgrades.gd"
 
 [rendering]

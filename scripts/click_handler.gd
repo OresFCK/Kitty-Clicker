@@ -2,6 +2,7 @@ extends Node
 
 @onready var ui_label = get_node("../ScoreLabel")
 @onready var sps_label = get_node('../ScorePerSecondLabel')
+@onready var Main = get_node('..')
 
 var is_clicking = false
 var timer: Timer

@@ -1,8 +1,9 @@
 extends Node
 
-@onready var button_container = $VBoxContainer
-@onready var ui_label = get_node('ScoreLabel')
-@onready var sps_label = get_node('ScorePerSecondLabel')
+@onready var button_container = self
+@onready var ui_label = get_node("../ScoreLabel")
+@onready var sps_label = get_node('../ScorePerSecondLabel')
+@onready var Main = get_node('..')
 
 var upgrades = [] 
 var timer: Timer
@@ -51,10 +52,10 @@ func _on_upgrade_button_pressed(upgrade):
 		print("Not enough coins to purchase " + upgrade["name"] + "!")
 
 func update_button_text(upgrade):
-	var button = buttons.get(upgrade["name"])  # Retrieve the button using the upgrade["name"]
+	var button = buttons.get(upgrade["name"]) 
 	if button:
 		button.text = upgrade["name"] + " - " + str(upgrade["price"]) + " Coins (Level " + str(upgrade["level"]) + ")"
-		button.queue_redraw()  # Ensure the button is redrawn after updating the text
+		button.queue_redraw() 
 
 func update_timer():
 	if Main.clicks_per_second > 0:

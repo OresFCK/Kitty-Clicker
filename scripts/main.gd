@@ -6,8 +6,8 @@ var clicks_per_second = 0
 var save_path = "user://savegame.save"
 var timer : Timer
 
-@onready var label = get_node("/root/Node2D/ScoreLabel")
-@onready var sps_label = get_node('/root/Node2D/ScorePerSecondLabel')
+@onready var label = get_node("ScoreLabel")
+@onready var sps_label = get_node('ScorePerSecondLabel')
 
 func _ready():
 	load_game()
