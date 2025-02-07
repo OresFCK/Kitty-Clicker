@@ -5,12 +5,11 @@ extends Node
 @onready var sps_label = get_node('../ScorePerSecondLabel')
 @onready var Main = get_node('..')
 
-var upgrades = [] 
 var timer: Timer
 var buttons = {}
 
 func _ready():
-	load_upgrades()
+	Upgrades.load_upgrades()  
 	generate_upgrade_buttons()
 
 	if not timer:
@@ -21,18 +20,15 @@ func _ready():
 		add_child(timer)
 		update_timer()
 
-func load_upgrades():
-	upgrades = Upgrades.get_upgrades()
-
 func generate_upgrade_buttons():
-	for upgrade in upgrades:
+	for upgrade in Upgrades.upgrades:  
 		var button = Button.new()
 		button.text = upgrade["name"] + " - " + str(upgrade["price"]) + " Coins (Level " + str(upgrade["level"]) + ")"
 
 		button.connect("pressed", Callable(self, "_on_upgrade_button_pressed").bind(upgrade))
 
 		button_container.add_child(button)
-		buttons[upgrade["name"]] = button  # Use upgrade["name"] as the unique key
+		buttons[upgrade["name"]] = button  
 
 func _on_upgrade_button_pressed(upgrade):
 	if Main.points >= upgrade["price"]:

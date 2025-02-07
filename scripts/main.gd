@@ -40,11 +40,14 @@ func load_game():
 			var content = file.get_as_text()
 			var data = JSON.parse_string(content)
 			if typeof(data) == TYPE_DICTIONARY:
-				# Load values from saved data
 				points = data.get("points", 0)
 				click_strength = data.get("click_strength", 1)
 				clicks_per_second = data.get("clicks_per_second", 0)
-				Upgrades.upgrades = data.get('upgrades') 
+
+				var saved_upgrades = data.get("upgrades", [])
+				if saved_upgrades.size() > 0:
+					Upgrades.upgrades = saved_upgrades
+
 				label.update_score(points)
 
 			file.close()

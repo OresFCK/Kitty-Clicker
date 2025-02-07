@@ -12,4 +12,24 @@ func get_upgrades():
 	return upgrades
 
 func save_upgrades():
-	return upgrades  
+	var saved_upgrades = []
+	for upgrade in upgrades:
+		saved_upgrades.append({
+			"id": upgrade.id,
+			"name": upgrade.name,
+			"price": upgrade.price,
+			"cps": upgrade.get("cps", 0), 
+			"click_strength": upgrade.get("click_strength", 0),
+			"level": upgrade.level
+		})
+	return saved_upgrades
+
+func load_upgrades():
+	if FileAccess.file_exists("user://savegame.save"):
+		var file = FileAccess.open("user://savegame.save", FileAccess.READ)
+		if file:
+			var content = file.get_as_text()
+			var data = JSON.parse_string(content)
+			if typeof(data) == TYPE_DICTIONARY:
+				upgrades = data.get("upgrades", upgrades)  
+			file.close()
